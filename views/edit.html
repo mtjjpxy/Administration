@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <title>编辑学生</title>
+    <link rel="stylesheet" href="../public/css/common.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../public/css/font-awesome.min.css">
+
+</head>
+<style>
+    body{
+        background: url("../public/img/bg.jpg") repeat;
+    }
+    .login-register{
+        height:auto;
+        width: 400px;
+        margin: 82px auto;
+        background-color: #ffffff;
+        overflow: hidden;
+    }
+    .form-group{
+        margin: 0 auto 25px;
+    }
+    .form-control{
+        padding: 20px 12px;
+        font-size: 18px;
+    }
+    button.btn{
+        padding: 6px 70px;
+    }
+</style>
+
+<body>
+<div class="container-fluid">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="/students">学生管理系统</a>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h2 class="sub-header">编辑</h2>
+            <form class="login" style="overflow: hidden" action="/students/edit" method="post">
+                <input type="hidden" name="id" value="{{ student._id }}">
+                <div class="form-group col-xs-9">
+                    <label for="">姓名</label>
+                    <input type="text" class="form-control" id="" name="name" required minlength="2" maxlength="10"
+                           value="{{ student.name }}">
+                </div>
+                <div class="form-group col-xs-9">
+                    <label for="">性别</label>
+                    <div>
+                        {{if student.gender==0 }}
+                        <label class="radio-inline">
+                            <input type="radio" name="gender" id="" value="0" checked> 男
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="gender" id="" value="1"> 女
+                        </label>
+                        {{else }}
+                        <label class="radio-inline">
+                            <input type="radio" name="gender" id="" value="0"> 男
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="gender" id="" value="1" checked> 女
+                        </label>
+                        {{/if}}
+
+                    </div>
+                </div>
+                <div class="form-group col-xs-9">
+                    <label for="">年龄</label>
+                    <input class="form-control" type="number" id="" name="age" value="{{ student.age }}" required
+                           min="1" max="150">
+                </div>
+                <div class="form-group col-xs-9">
+                    <label for="">状态</label>
+                    <input class="form-control" type="text" id="" name="state" value="{{ student.state }}">
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="submit" class="btn btn-primary login-btn">提交</button>
+                    </div>
+                    <div class="col-md-3" style="height: 5px">
+                    </div>
+                    <div class="col-md-6">
+
+                        <a href="/students">
+                            <button type="button" class="btn btn-default">取消</button>
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
