@@ -2,12 +2,12 @@
 $(function () {
     // 登录注册切换
     $('#tab').find('ul li a').each(function () {
-        var index;
+        var login;
         $(this).click(function () {
             console.log(1);
-            index = $(this).parent().index();
+            login = $(this).parent().index();
             $(this).addClass('active').parent('li').siblings().children('a').removeClass('active');
-            $(this).parents('ul').siblings('div').children('div:eq('+ index +')').show().siblings('div').hide();
+            $(this).parents('ul').siblings('div').children('div:eq('+ login +')').show().siblings('div').hide();
         });
     });
 
@@ -54,11 +54,14 @@ $(function () {
             dataType:'json',
             success:function (result) {
                 alert(result.message);
+            
                 // 登录成功
                 if(result.code == 4){
                     
                     loginBox.find('input').each(function () {
                         $(this).val('');
+                        
+                        
                     });
                 }
             }

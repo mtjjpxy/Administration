@@ -15,21 +15,6 @@ var Cookies = require('cookies');
 // 创建app应用 => NodeJs
 var app = express().listen()._events.request;
 
-app.use('/node_modules/',express.static('./node_modules/'));
-app.use('/public',express.static('./public/'));
-app.use('/',express.static('views'))
-
-// 配置模板引擎和 body-parser 一定要在 app.use(router) 挂载路由之前
-// parse application/x-www-form-urlencoded
-app.engine('html',require('express-art-template'));
-app.use(bodyParser.urlencoded({extended:false}));
-// parse application/json
-app.use(bodyParser.json());
-
-//挂载路由到app服务中
-app.use(router);
-
-
 // 设置静态文件托管
 // 当用户访问的URL以/public开始，那么直接返回对应__dirname + '/public'下的文件
 app.use('/public',express.static(__dirname + '/public') );
@@ -63,7 +48,7 @@ app.use( function (req,res,next) {
 });
 
 app.get('/',function(req, res) {
-    res.render('index.html');
+    res.render('login.html');
 });
 
 // 根据不同功能划分模块
@@ -72,20 +57,19 @@ app.use('/api',require('./routers/api'));
 app.use('/',require('./routers/main'));
 
 
-// app.use('/node_modules/',express.static('./node_modules/'));
-// app.use('/public',express.static('./public/'));
-// app.use('/',express.static('views'))
+app.use('/node_modules/',express.static('./node_modules/'));
+app.use('/public',express.static('./public/'));
+app.use('/',express.static('views'))
 
-// // 配置模板引擎和 body-parser 一定要在 app.use(router) 挂载路由之前
-// // parse application/x-www-form-urlencoded
-// app.engine('html',require('express-art-template'));
-// app.use(bodyParser.urlencoded({extended:false}));
-// // parse application/json
-// app.use(bodyParser.json());
+// 配置模板引擎和 body-parser 一定要在 app.use(router) 挂载路由之前
+// parse application/x-www-form-urlencoded
+app.engine('html',require('express-art-template'));
+app.use(bodyParser.urlencoded({extended:false}));
+// parse application/json
+app.use(bodyParser.json());
 
-// //挂载路由到app服务中
-// app.use(router);
+//挂载路由到app服务中
+app.use(router);
 app.listen(60318,function () {
     console.log('running  60318 ....')
 })
-//app.use('/',express.static('views'))

@@ -1,7 +1,10 @@
  var fs = require('fs');
  var Student = require('./student');
+ var username = require('./schemas/users')
  
-
+ // Express 提供了一种更好的方式
+ // 专门用来包装路由的
+ 
  var express = require('express');
  
  // 1、创建一个路由容器
@@ -13,43 +16,65 @@
  渲染学生列表界面
   */
  router.get('/students', function (req, res) {
-     if (req.query.name != null && req.query.name != undefined && req.query.name != '') {
-         Student.findOne({name : req.query.name.replace(/"/g, '')}, function (err, student) {
-             if (err) {
-                 return res.status(500).send('Server error');
-             }
-             if (student == undefined) {
-                 res.render('index.html', {
-                     count: 0,
-                     student: student
-                 })
-             } else {
-                 res.render('index.html', {
-                     count: 1,
-                     student: student
-                 })
-             }
-         })
-     } 
- })
+    if (req.query.name != null && req.query.name != undefined && req.query.name != '') {
+        Student.findOne({name : req.query.name.replace(/"/g, '')}, function (err, student) {
+            if (err) {
+                return res.status(500).send('Server error');
+            }
+            if (student == undefined) {
+                res.render('index.html', {
+                    count: 0,
+                    student: student
+                })
+            } else {
+                res.render('index.html', {
+                    count: 1,
+                    student: student
+                })
+            }
+        })
+    } else {
+        Student.find(function (err, students) {
+            if (err) {
+                return res.status(500).send('Server error');
+            }
+            if (students.length >= 3) {
+                var top = [
+                    students[0],
+                    students[1],
+                    students[2],
+                ]
+            }
+            res.render('index.html', {
+                top: top,
+                students: students
+            })
+        })
+    }
+})
  /**
   * 渲染添加学生的页面
   */
- router.get('/students/new', function (req, res) {
-     res.render('new.html');
- });
+ if(username!=null){
+    router.get('/students/new', function (req, res) {
+        res.render('new.html');
+    });
+    /*
+    * 处理添加学生
+    */
+    router.post('/students/new', function (req, res) {
+        new Student(req.body).save(function (err) {
+            if (err) {
+                return res.status(500).send('Server error');
+            }
+            res.redirect('/students')
+        })
+    })
+
+ }
+
  
- /*
-  * 处理添加学生
-  */
- router.post('/students/new', function (req, res) {
-     new Student(req.body).save(function (err) {
-         if (err) {
-             return res.status(500).send('Server error');
-         }
-         res.redirect('/students')
-     })
- })
+ 
  /*
   * 渲染编辑学生页面
   */

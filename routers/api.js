@@ -11,7 +11,6 @@ var User = require('../schemas/users');
 var responseData;
 
 //app.use('/',express.static('views'))
-var url='../views/index.html';
 router.use( function (req,res,next) {
     responseData = {
         code: 0,
@@ -88,7 +87,7 @@ router.post('/user/login',function (req,res) {
         responseData.code = 2;
         responseData.message = '用户名或密码不能为空';
         res.json(responseData);
-        return
+        return;
     }
     // 判断用户名是否已经注册
     User.findOne({
@@ -98,7 +97,6 @@ router.post('/user/login',function (req,res) {
         if(doc){
             responseData.code = 4;
             responseData.message = '登录成功';
-            res.render(url);
             responseData.userInfo = {
                 _id: doc._id,
                 username: doc.username
@@ -108,12 +106,12 @@ router.post('/user/login',function (req,res) {
                 username: doc.username
             }));
             res.json(responseData);
-            return 
+            return;
         }
         responseData.code = 2;
         responseData.message = '用户名和密码不存在';
         res.json(responseData);
-        return
+        return;
     });
 });
 
