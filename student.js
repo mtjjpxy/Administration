@@ -2,8 +2,8 @@ var mongoose =require('mongoose');
 
 //建立数据库链接
 //mongoose.connect('mongode://mongodb://172.21.2.236:27017/190110910318')
-//var url = process.env.DATABASE_URL || "mongodb://172.21.2.236:27017/190110910318";
-var url = process.env.DATABASE_URL || "mongodb://localhost:27017/190110910318";
+var url = process.env.DATABASE_URL || "mongodb://172.21.2.236:27017/190110910318";
+//var url = process.env.DATABASE_URL || "mongodb://localhost:27017/190110910318";
 mongoose.connect(url, {
         useNewUrlParser: true
     })
